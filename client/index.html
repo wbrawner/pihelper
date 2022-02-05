@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Pi-helper</title>
+    <meta charset="utf-8">
+    <base href="/">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="application-name" content="Twigs">
+	<link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="/static/icons/icon-192x192.png">
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <script type="text/javascript" src="/static/js/index.js"></script>
+</head>
+
+<body onload="monitorChanges()">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 404 404" class="spin" id="logo">
+        <g id="group" transform="translate(66.72238 66.72238)">
+            <path id="path"
+                d="M 135.467 61.19 C 94.537 61.19 61.19 94.537 61.19 135.467 C 61.19 147.777 64.21 159.399 69.542 169.636 C 64.167 175.795 61.2 183.696 61.191 191.871 C 61.191 200.851 64.762 209.472 71.112 215.822 C 77.462 222.172 86.083 225.743 95.063 225.743 C 100.983 225.736 106.799 224.178 111.929 221.224 C 117.059 218.269 121.326 214.021 124.303 208.904 C 124.303 208.904 124.304 208.903 124.304 208.903 C 127.946 209.455 131.674 209.743 135.467 209.743 C 176.397 209.743 209.744 176.397 209.744 135.467 C 209.744 94.537 176.397 61.19 135.467 61.19 Z M 135.467 76.748 C 167.99 76.748 194.192 102.943 194.192 135.466 C 194.192 167.989 167.99 194.191 135.467 194.191 C 133.225 194.191 131.014 194.062 128.839 193.819 C 128.839 193.817 128.839 193.814 128.839 193.812 C 128.89 193.165 128.922 192.517 128.936 191.869 C 128.935 182.889 125.364 174.268 119.014 167.919 C 112.664 161.569 104.043 157.999 95.063 157.999 C 90.692 158.007 86.364 158.86 82.318 160.512 C 82.318 160.512 82.318 160.511 82.317 160.511 C 82.315 160.512 82.313 160.513 82.311 160.514 C 78.743 152.923 76.747 144.437 76.747 135.467 C 76.747 102.944 102.942 76.749 135.465 76.749 Z"
+                fill="#000000" stroke="#000000" stroke-width="1.72941" />
+        </g>
+    </svg>
+    <div class="enabled" id="enabled">
+        <p>Status: <span class="status">Enabled</span></p>
+        <button onclick="disable(30)">Disable for 30 seconds</button>
+        <button onclick="disable(60)">Disable for 1 minute</button>
+        <button onclick="disable(300)">Disable for 5 minutes</button>
+        <button onclick="showEnable(false, true)">Disable for custom time</button>
+        <button onclick="disable()">Disable Permanently</button>
+    </div>
+    <div class="disabled" id="disabled">
+        <p>Status: <span class="status">Disabled</span><span class="status" id="duration"></span></p>
+        <button onclick="enable()">Enable</button>
+    </div>
+    <div class="enabled custom" id="disable-custom">
+        <p>Disable for a custom time</p>
+        <input type="number" id="disable-duration" value="10" />
+        <div class="units">
+            <button id="seconds" class="unit selected" onclick="setUnit('seconds')">Seconds</button>
+            <button id="minutes" class="unit" onclick="setUnit('minutes')">Minutes</button>
+            <button id="hours" class="unit" onclick="setUnit('hours')">Hours</button>
+            <input type="hidden" name="unit" value="seconds" id="unit" />
+        </div>
+        <button onclick="disableCustom()">Disable</button>
+        <button class="outline" onclick="showEnable(true)">Cancel</button>
+    </div>
+</body>
+
+</html>

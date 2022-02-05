@@ -1,0 +1,19 @@
+{
+  "name": "pihelper",
+  "version": "1.0.0",
+  "description": "A PWA to manage the status of your Pi-hole",
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "prestart": "npm run -w client build",
+    "start": "npm run -w server start"
+  },
+  "author": "William Brawner <me@wbrawner.com>",
+  "license": "MIT",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "devDependencies": {
+    "concurrently": "^7.0.0"
+  }
+}

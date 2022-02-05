@@ -1,0 +1,163 @@
+:root {
+    --color-red-light: #f60d1a;
+    --color-red-dark: #96060c;
+    --color-green-light: #29fc2e;
+    --color-green-dark: #22b225;
+    --color-grey-light: #cbcbcb;
+    --color-grey-medium: #cbcbcb;
+    --color-grey-dark: #333333;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --color-background: #FFFFFF;
+        --color-foreground: #000000;
+        --color-foreground-enabled: var(--color-green-dark);
+        --color-foreground-disabled: var(--color-red-light);
+        --color-background-enabled: var(--color-green-dark);
+        --color-background-disabled: var(--color-red-light);
+        --color-onbackground-enabled: #FFFFFF;
+        --color-onbackground-disabled: #FFFFFF;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-background: #000000;
+        --color-foreground: #F1F1F1;
+        --color-foreground-enabled: var(--color-green-dark);
+        --color-foreground-disabled: var(--color-red-dark);
+        --color-background-enabled: var(--color-green-dark);
+        --color-background-disabled: var(--color-red-dark);
+        --color-onbackground-enabled: white;
+        --color-onbackground-disabled: white;
+    }
+}
+
+* {
+    transition: all 0.25s ease;
+}
+
+html, body {
+    margin: auto;
+    padding: 0;
+    font-family: sans-serif;
+    text-align: center;
+    height: 100vh;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+}
+
+body, div {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    align-items: center;
+    justify-content: center;
+    max-height: 100vh;
+}
+
+body {
+    padding: 10px;
+}
+
+div, div > * {
+    width: 100%;
+}
+
+svg {
+    height: 10em;
+    width: 10em;
+}
+
+path {
+    fill: var(--color-foreground);
+}
+
+button {
+    border-radius: 5px;
+    border: 0;
+    padding: 10px;
+    cursor: pointer;
+}
+
+button, p {
+    margin: 5px 0;
+    font-size: 1em;
+}
+
+#enabled, #disabled, #disable-custom {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+}
+
+.enabled .status {
+    color: var(--color-foreground-enabled);
+}
+
+.enabled button {
+    background-color: var(--color-background-disabled);
+    color: var(--color-onbackground-disabled);
+}
+
+.enabled button.outline {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    border: 1px solid var(--color-foreground-disabled);
+}
+
+.disabled .status {
+    color: var(--color-red-light);
+}
+
+.disabled button {
+    background-color: var(--color-background-enabled);
+    color: var(--color-onbackground-enabled);
+}
+
+.disabled button.outline {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    border: 1px solid var(--color-foreground-enabled);
+}
+
+.spin {
+    animation-name: spin;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg) }
+    to { transform: rotate(360deg) }
+}
+
+.custom * {
+    box-sizing: border-box;
+}
+
+.units {
+    flex-direction: row;
+}
+
+.enabled button.unit {
+    background: var(--color-background);
+    color: var(--color-foreground);
+}
+
+.enabled button.unit.selected {
+    background: var(--color-grey-medium);
+    color: var(--color-grey-dark);
+}
+
+input {
+    background-color: var(--color-background);
+    border-radius: 5px;
+    border: 1px solid var(--color-foreground-disabled);
+    color: var(--color-foreground);
+    font-size: 1em;
+    margin: 5px 0;
+    padding: 10px;
+}
