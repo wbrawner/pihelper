@@ -1,7 +1,7 @@
 let socket: WebSocket | null = null;
 
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/static/js/sw.js', { 'scope': '/' })
+    navigator.serviceWorker.register('/static/js/sw.js')
         .then(function (registration) {
             console.log('Registration successful, scope is:', registration.scope);
         })

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prebuild": "copyfiles -Ve src/** index.html manifest.json **/*.css **/*.png  ../dist/public",
+    "prebuild": "copyfiles -Ve src/** index.html manifest.json sw.js **/*.css **/*.png  ../dist/public",
     "build": "tsc --project ./",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
