@@ -10,17 +10,26 @@ if ('serviceWorker' in navigator) {
         });
 }
 
-
 function monitorChanges() {
     const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
     socket = new WebSocket(`${protocol}://${location.host}/`)
     socket.onopen = (e) => {
         console.log('socket opened', e)
+        if (window.location.search === '?enable') {
+            enable();
+        } else if (window.location.search.startsWith('?disable')) {
+            const duration = window.location.search.split('=')[1];
+            disable(Number.parseInt(duration));
+        }
+        window.history.replaceState(null, '', window.location.pathname);
     }
 
+    let timeout: NodeJS.Timeout | null = null;
     socket.onmessage = (e) => {
+        if (timeout) {
+            clearTimeout(timeout!);
+        }
         const data = JSON.parse(e.data)
-        console.log('message received', data)
         switch (data.status) {
             case 'enabled':
                 if (durationInterval) {
@@ -28,12 +37,18 @@ function monitorChanges() {
                 }
                 animateLogo(false)
                 showDisable(false)
-                showEnable(true)
+                timeout = setTimeout(() => {
+                    showEnable(true);
+                    timeout = null;
+                }, 500)
                 break
             case 'disabled':
                 animateLogo(false)
                 showEnable(false, false)
-                showDisable(true, data.until)
+                timeout = setTimeout(() => {
+                    showDisable(true, data.until)
+                    timeout = null;
+                }, 500)
                 break
             default:
                 console.error('Unhandled status', data)
@@ -80,7 +95,6 @@ function setUnit(unit: string) {
 }
 
 function disableCustom() {
-
     showEnable(false, false)
 }
 
@@ -97,33 +111,23 @@ function showEnable(show: boolean, showCustom?: boolean) {
     const enableDiv = document.getElementById('enabled') as HTMLElement
     const disableCustom = document.getElementById('disable-custom') as HTMLElement
     if (show) {
-        if (disableCustom.style.opacity === '1') {
-            disableCustom.style.opacity = '0'
+        if (disableCustom.classList.contains('visible')) {
+            disableCustom.classList.replace('visible', 'hidden');
             setTimeout(() => {
-                disableCustom.style.maxHeight = '0'
-                enableDiv.style.maxHeight = '100vh'
-            }, 250)
-            setTimeout(() => {
-                enableDiv.style.opacity = '1'
+                enableDiv.classList.add('visible')
+                enableDiv.classList.remove('hidden')
             }, 500)
         } else {
-            enableDiv.style.maxHeight = '100vh'
-            setTimeout(() => {
-                enableDiv.style.opacity = '1'
-            }, 250)
+            enableDiv.classList.add('visible')
+            enableDiv.classList.remove('hidden')
         }
     } else {
-        enableDiv.style.opacity = '0'
-        setTimeout(() => {
-            enableDiv.style.maxHeight = '0'
-        }, 250)
+        enableDiv.classList.replace('visible', 'hidden')
         if (showCustom) {
             setTimeout(() => {
-                disableCustom.style.maxHeight = '100vh'
+                disableCustom.classList.add('visible')
+                disableCustom.classList.remove('hidden')
             }, 250)
-            setTimeout(() => {
-                disableCustom.style.opacity = '1'
-            }, 500)
         }
     }
 }
@@ -133,17 +137,11 @@ let durationInterval: any;
 function showDisable(show: boolean, timestamp?: number) {
     const disableDiv = document.getElementById('disabled') as HTMLElement
     if (show) {
-        disableDiv.style.maxHeight = '100vh'
+        disableDiv.classList.add('visible');
+        disableDiv.classList.remove('hidden');
     } else {
-        disableDiv.style.opacity = '0'
+        disableDiv.classList.replace('visible', 'hidden');
     }
-    setTimeout(() => {
-        if (show) {
-            disableDiv.style.opacity = '1'
-        } else {
-            disableDiv.style.maxHeight = '0'
-        }
-    }, 250)
     const duration = document.getElementById('duration') as HTMLElement
     if (!timestamp) {
         duration.innerText = ''
@@ -163,7 +161,6 @@ function showDisable(show: boolean, timestamp?: number) {
             return
         }
         let seconds = Math.ceil(difference / 1000)
-        console.log(`${until.getTime()} - ${now.getTime()} = ${seconds} seconds`)
         let hours = 0
         let minutes = 0
         let durationText: string = '';
@@ -171,12 +168,10 @@ function showDisable(show: boolean, timestamp?: number) {
             hours = Math.floor(seconds / 3600)
             seconds -= hours * 3600
         }
-        console.log(`hours: ${hours} seconds: ${seconds}`)
         if (seconds >= 60) {
             minutes = Math.floor(seconds / 60)
             seconds -= minutes * 60
         }
-        console.log(`minutes: ${minutes} seconds: ${seconds}`)
         if (hours > 0) {
             durationText += `${hours.toString().padStart(2, '0')}:`
         }

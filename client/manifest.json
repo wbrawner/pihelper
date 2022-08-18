@@ -1,5 +1,7 @@
 {
   "name": "Pi-helper",
+  "description": "A PWA to facillitate enabling/disabling a Pi-hole",
+  "orientation": "any",
   "short_name": "Pi-helper",
   "theme_color": "#000000",
   "background_color": "#000000",
@@ -94,6 +96,56 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Enable",
+      "description": "Enable the Pi-hole",
+      "url": "/?enable",
+      "icons": [
+        {
+          "src": "static/icons/shortcut-play.png",
+          "type": "image/png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Disable for 30 seconds",
+      "description": "Enable the Pi-hole",
+      "url": "/?disable=30",
+      "icons": [
+        {
+          "src": "static/icons/shortcut-pause.png",
+          "type": "image/png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Disable for 1 minute",
+      "description": "Enable the Pi-hole",
+      "url": "/?disable=60",
+      "icons": [
+        {
+          "src": "static/icons/shortcut-pause.png",
+          "type": "image/png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Disable for 5 minutes",
+      "description": "Enable the Pi-hole",
+      "url": "/?disable=300",
+      "icons": [
+        {
+          "src": "static/icons/shortcut-pause.png",
+          "type": "image/png",
+          "sizes": "96x96"
+        }
+      ]
     }
   ]
 }
