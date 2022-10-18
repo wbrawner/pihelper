@@ -36,14 +36,14 @@ wss.on('connection', socket => {
                 enable(status => {
                     clients.forEach(client => {
                         client.send(status)
-                    })        
+                    })
                 })
                 break
             case 'disable':
                 disable(command.duration, status => {
                     clients.forEach(client => {
                         client.send(status)
-                    })        
+                    })
                 })
                 break
             default:
@@ -103,16 +103,20 @@ function enable(callback: (status: any) => void) {
     get(url, callback)
 }
 
-function disable(duration: number, callback: (status: any) => void) {
+function disable(duration?: number, callback?: (status: any) => void) {
     let url = new URL(`${pihole}/admin/api.php`)
     url.searchParams.append('auth', apiKey)
-    url.searchParams.append('disable', duration.toString())
+    url.searchParams.append('disable', duration?.toString() ?? '')
     get(url, (data) => {
         url = new URL(`${pihole}/custom_disable_timer`)
+        if (duration === undefined) {
+            callback?.call(callback, data)
+            return
+        }
         get(url, (timestamp) => {
             let dataObj = JSON.parse(data)
             dataObj["until"] = Number.parseInt(timestamp)
-            callback(JSON.stringify(dataObj))
+            callback?.call(callback, JSON.stringify(dataObj))
         })
     })
 }
