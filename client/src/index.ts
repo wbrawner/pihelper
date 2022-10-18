@@ -95,7 +95,15 @@ function setUnit(unit: string) {
 }
 
 function disableCustom() {
-    showEnable(false, false)
+    const durationString = (document.getElementById('disable-duration') as HTMLInputElement).value
+    const unitInput = document.getElementById('unit') as HTMLInputElement
+    let modifier = 0
+    if (unitInput.value === 'minutes') {
+        modifier = 1
+    } else if (unitInput.value === 'hours') {
+        modifier = 2
+    }
+    disable(Math.pow(60, modifier) * Number.parseInt(durationString))
 }
 
 function animateLogo(animate: boolean) {
@@ -128,6 +136,8 @@ function showEnable(show: boolean, showCustom?: boolean) {
                 disableCustom.classList.add('visible')
                 disableCustom.classList.remove('hidden')
             }, 250)
+        } else {
+            disableCustom.classList.replace('visible', 'hidden')
         }
     }
 }
