@@ -80,6 +80,9 @@ function get(url: URL, callback: (data: string) => void, error?: (error?: Error)
 
 function status(callback: (status: any) => void) {
     let url = new URL(`${pihole}/admin/api.php`)
+    url.searchParams.append('auth', apiKey)
+    url.searchParams.append('summary', '')
+    console.log(`GET ${url.toString()}`)
     get(url, data => {
         let dataObj = JSON.parse(data)
         if (dataObj.status === 'disabled') {

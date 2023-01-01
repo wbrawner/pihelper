@@ -16,7 +16,7 @@ services:
     network_mode: service:pihole
     user: node
   pihole:
-    image: pihole/pihole
+    image: pihole/pihole:2022.12
     environment:
       WEBPASSWORD: pihole
     restart: unless-stopped
